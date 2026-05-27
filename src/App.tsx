@@ -24,6 +24,8 @@ export default function App() {
   const [history, setHistory] = useState<PromptHistory[]>([]);
 
   const sessionId = getSessionId();
+  const isLocalhostUrl = /localhost|127\.0\.0\.1/.test(SUPABASE_URL);
+  const isProductionHost = typeof window !== 'undefined' && !/localhost|127\.0\.0\.1/.test(window.location.hostname);
 
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
     return (
@@ -35,6 +37,22 @@ export default function App() {
           </p>
           <p className="mt-4 text-slate-500">
             Set them in your Vercel project settings and redeploy the site.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  if (isLocalhostUrl && isProductionHost) {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-4 bg-slate-50 text-slate-900">
+        <div className="max-w-xl w-full rounded-3xl bg-white/90 p-8 shadow-2xl ring-1 ring-slate-200">
+          <h1 className="text-3xl font-semibold mb-4">Incorrect Supabase URL in deployment</h1>
+          <p className="text-slate-700 leading-7">
+            The app is currently configured to talk to <code className="font-mono bg-slate-100 px-1 py-0.5 rounded">localhost</code>, which cannot be reached from Vercel.
+          </p>
+          <p className="mt-4 text-slate-700 leading-7">
+            Update <code className="font-mono bg-slate-100 px-1 py-0.5 rounded">VITE_SUPABASE_URL</code> in your Vercel environment variables to your real Supabase project URL, then redeploy.
           </p>
         </div>
       </div>

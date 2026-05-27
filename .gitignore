@@ -12,6 +12,8 @@ dist-ssr
 npm-cache/
 temp/
 temp_backup/
+mingit/
+mingit.zip
 *.local
 
 .vscode/*
